@@ -11,9 +11,11 @@ export default class Marc {
   }
   /**
    * Get the transition map. Each transition maps a given token/word to another
-   * map of tokens/words whose values are occurences. Given the following observations
-   *   'abc', 'acv', 'vac'
+   * map of tokens/words whose values are occurences.
    *
+   * @param {Number} order - The order (ie. "memory") of the chain
+   *
+   * Given the following observations: 'abc', 'acv', 'vac'
    * Our transitions for the letter `a` would be:
    * @example
    *   {
@@ -74,6 +76,8 @@ export default class Marc {
 
   /**
    * Generates a random output based on `observations`
+   * @param      {Function} end - Given the current list of output tokens,
+   *                              return true to STOP and false to CONTINUE
    * @return {String|Number} randomly generated output of average length
    */
   random (end = v => v[v.length - 1] === 'END') {

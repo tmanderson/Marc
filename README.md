@@ -13,7 +13,7 @@ import Marc from 'marc';
 // Our observations consist of four sentences from a rando's Twitter account
 const observations = ['a sentence', 'another sentence', 'one more', 'and the last'];
 // Give Mark the observations and tell it our token delimeter (' ')
-const m = new Mark(observations, ' ');
+const m = new Mark(observations, { delimeter: ' ', order: 0 }); // order = n - 1
 // Generate a probable observation
 const random = m.random();
 ```
