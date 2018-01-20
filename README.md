@@ -2,7 +2,10 @@
 #### A tiny Markov chain generator in JavaScript
 
 Easily create Markov models from a given set of observations to generate random
-sequences of _potential_ observations.
+sequences of other potential observations.
+
+Marc supports both [time-homogeneous](https://en.wikipedia.org/wiki/Markov_chain#Variations)
+and [higher-order](https://en.wikipedia.org/wiki/Markov_chain#Variations) Markov chains.
 
 #### Usage
 ```js
@@ -20,12 +23,14 @@ const random = m.random();
 $> npm run example
 ```
 
-#### A few examples (from NYTimes homepage, 01-19-2018):
+#### A few examples, some funny, others serious (from NYTimes homepage, 01-19-2018):
 - Cuomo Looks at The Bike That Could Cost $11.52
 - Vows: For Love of Oat Milk Merkel?
+- ICE Detained My Life
+- How the Worst Way to Help Travelers Choose Safe Destinations
+- Brand to Pretend They’re Homeless Pro-Life Movement Has Plenty
+- Why James Franco Could Cost $11.52
 - Timeline: How Congress Breaks Down the Collusion We Were Waiting For?
-- Trilobites: Debunking the Jewelry Is Dead Trees
 - Military Shifts Focus to Trump’s Radical Honesty
-- A Good at 78 Movement Has Plenty to Win
 - Trump Administration on #MeToo Moment Shape the Bitcoin Bubble
 - Sundance Film Festival: 5 Movies to Thwart Federal Government
