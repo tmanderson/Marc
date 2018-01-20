@@ -5,7 +5,7 @@ Easily create Markov models from a given set of observations to generate random
 sequences of _potential_ observations.
 
 #### Usage
-```
+```js
 import Marc from 'marc';
 // Our observations consist of four sentences from a rando's Twitter account
 const observations = ['a sentence', 'another sentence', 'one more', 'and the last'];
@@ -16,7 +16,7 @@ const random = m.random();
 ```
 
 #### Run the example
-```
+```bash
 $> npm run example
 ```
 
