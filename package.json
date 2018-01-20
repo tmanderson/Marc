@@ -1,0 +1,16 @@
+{
+  "name": "marc.js",
+  "version": "0.1.0",
+  "description": "A tiny simple Markov chain generator",
+  "main": "src/index.js",
+  "scripts": {
+    "example": "node -r @std/esm data/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@std/esm": "^0.19.7"
+  },
+  "@std/esm": "cjs"
+}
