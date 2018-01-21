@@ -29,7 +29,7 @@ export default class Marc {
    * @return {Object} The transition map generated from `this.observations`
    */
   getTransitions (order = this.order) {
-    return this.observations.reduce((transitions, set) => {
+    return this.observations.reduce((transitions, set, p) => {
       const tokens = Array.isArray(set) ? set : `${set}`.split(this.delimeter)
       // Add entries to transition probabilities for the given set of `tokens`
       return tokens.reduce((probs, token, i, tokens) =>
@@ -39,7 +39,7 @@ export default class Marc {
             [token]: ((probs.START || {})[token] || 0) + (i === 0 ? 1 : 0)
           })
         },
-        (new Array(i - order + 1).fill(0)).reduce((transitions, _, j) => {
+        (new Array(Math.max(1, i - order)).fill(0)).reduce((transitions, _, j) => {
           const t = tokens.slice(i - order, i + 1).join(this.delimeter)
           return Object.assign(transitions, {
             [t]: Object.assign(transitions[t] || {}, {
