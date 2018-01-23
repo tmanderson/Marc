@@ -1,8 +1,13 @@
 {
-  "name": "marc.js",
-  "version": "0.1.0",
+  "name": "@tmanderson/marc",
+  "version": "0.1.1",
   "description": "A tiny simple Markov chain generator",
+	"keywords": ["markov", "markov-chain", "random", "generator", "text", "chain"],
   "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tmanderson/Marc.git"
+  },
   "scripts": {
     "example": "node -r @std/esm data/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
