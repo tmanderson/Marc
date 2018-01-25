@@ -30,30 +30,19 @@ export default class Marc {
    */
   getTransitions (order = this.order) {
     return this.observations.reduce((transitions, set, p) => {
-      const tokens = Array.isArray(set) ? set : `${set}`.split(this.delimeter)
-      // Add entries to transition probabilities for the given set of `tokens`
-      return tokens.reduce((probs, token, i, tokens) =>
-        Object.assign(probs, {
-          // If i === 0, increment the total observations starting with `token`
-          'START': Object.assign((probs.START || {}), {
-            [token]: ((probs.START || {})[token] || 0) + (i === 0 ? 1 : 0)
-          })
-        },
-        (new Array(Math.max(1, i - order)).fill(0)).reduce((transitions, _, j) => {
-          const t = tokens.slice(i - order, i + 1).join(this.delimeter)
-          return Object.assign(transitions, {
-            [t]: Object.assign(transitions[t] || {}, {
-              'END': ((transitions[t] || {}).END || 0) + (i === tokens.length - 1 ? 1 : 0)
-            }, i < tokens.length - 1
-              ? {
-                [tokens[i + 1]]: ((probs[token] || {})[tokens[i + 1]] || 0) + 1
-              }
-              : {}
-            )
-          })
-        }, transitions)
-        ), transitions)
-    }, {})
+      const tokens = !Array.isArray(set)
+        ? `${set}`.toLowerCase().replace(/[^$0-9A-Z:a-z ]/g, '').split(' ')
+        : set
+
+      return tokens.reduce((map, token, i, tokens) =>
+        (map.find(([t]) => t === token) ? map : map.concat([[token]]))
+          .map(([t, ...followers], j) => {
+            if (t === 'START' && i === 0) return [t, ...followers, token];
+            if (t === token && i === tokens.length - 1) return [t, ...followers, 'END'];
+            if (t === token) return [t, ...followers, tokens[i + 1]]
+            return [t, ...followers];
+          }), transitions);
+    }, [['START']]).sort(() => Math.floor(Math.random() * 2) - 1);
   }
   /**
    * Given a token `state`, outputs a random resulting state based on probabilities
@@ -63,15 +52,8 @@ export default class Marc {
    * @return {String|Number}       – The new state
    */
   transitionFrom (state = 'START') {
-    const possibilities = Object.keys(this.transitions)
-      .reduce((probs, t) => {
-        const p = this.transitions[state][t]
-        return p ? probs.concat(new Array(p).fill(t)) : probs
-      }, [])
-
-    return possibilities.length
-      ? possibilities[Math.floor(Math.random() * possibilities.length)]
-      : 'END'
+    const possibilities = this.transitions.find(([t]) => t === state).slice(1);
+    return possibilities[Math.floor(Math.random() * possibilities.length)];
   }
 
   /**
@@ -83,6 +65,6 @@ export default class Marc {
   random (end = v => v[v.length - 1] === 'END') {
     const v = [];
     while (!end(v)) v.push(v.length === 0 ? this.transitionFrom() : this.transitionFrom(v[v.length - 1]))
-    return v.filter(t => t !== 'START' && t !== 'END').join(this.delimeter);
+    return v.filter(t => t !== 'START' && t !== 'END').map(t => `${t.charAt(0).toUpperCase()}${t.substr(1)}`).join(this.delimeter);
   }
 }

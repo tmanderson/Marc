@@ -7,4 +7,4 @@ const observations = JSON.parse(readFileSync(__dirname + '/News_Headlines-NYTime
 const m = new Marc(observations, { delimeter: ' ', order: 0 });
 // console.dir(m.transitions, { colors: true, depth: 6 });
 console.log(m.random());
-console.log(new Array(10).fill(0).map(() => m.random()).join('\n'));
+console.log(new Array(1).fill(0).map(() => m.random()).join('\n'));
