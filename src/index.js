@@ -42,7 +42,7 @@ export default class Marc {
             if (t === token) return [t, ...followers, tokens[i + 1]]
             return [t, ...followers];
           }), transitions);
-    }, [['START']]).sort(() => Math.floor(Math.random() * 2) - 1);
+    }, [['START']]).sort(() => Math.round(Math.random() * 2 - 1));
   }
   /**
    * Given a token `state`, outputs a random resulting state based on probabilities
