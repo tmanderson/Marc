@@ -1,8 +1,15 @@
 {
   "name": "@tmanderson/marc",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A tiny simple Markov chain generator",
-	"keywords": ["markov", "markov-chain", "random", "generator", "text", "chain"],
+  "keywords": [
+    "markov",
+    "markov-chain",
+    "random",
+    "generator",
+    "text",
+    "chain"
+  ],
   "main": "src/index.js",
   "repository": {
     "type": "git",
