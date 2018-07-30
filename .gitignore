@@ -1,3 +1,5 @@
 .DS_STORE
 node_modules
+*.json
+!data/News_Headlines-NYTimes-1-19-2018_1-25-2018.json
 

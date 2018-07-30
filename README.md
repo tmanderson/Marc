@@ -2,7 +2,8 @@
 #### A tiny Markov chain generator in JavaScript
 
 Easily create Markov models from a given set of observations to generate random
-sequences of other potential observations.
+sequences of other potential observations. Larger data sets can be pre-computed
+using the **new** [transition generator](#pre-compute-transitions-recommended-for-large-data-sets).
 
 Marc supports both [time-homogeneous](https://en.wikipedia.org/wiki/Markov_chain#Variations)
 and [higher-order](https://en.wikipedia.org/wiki/Markov_chain#Variations) Markov chains.
@@ -21,6 +22,27 @@ const random = m.random();
 #### Run the example
 ```bash
 $> npm run example
+```
+
+#### Pre Compute transitions (recommended for large data sets)
+##### With global install
+```bash
+$> npm install -g @tmanderson/marc
+$> marc observations.json transitions.json
+```
+
+##### From repo
+```bash
+$> ./bin/index.js observations.json transitions.json
+```
+
+The output `transitions.json` file can be used with Marc via `setTransitions` or
+when creating an instance.
+
+```js
+fetch('transitions.json')
+  .then(res => res.json())
+  .then(observations => new Marc(observations, { delimeter: ' ', order: 0 }));
 ```
 
 #### A few examples, some funny, others serious (from NYTimes homepage, 01-19-2018):

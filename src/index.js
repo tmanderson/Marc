@@ -1,30 +1,45 @@
 /**
- * @params {Array[String|Number]} obervations – A set of obervations
+ * @params {Array[Array|String|Number]} obervations – A set of obervations
  * @params {}
  */
 export default class Marc {
-  constructor (observations, { delimeter = '', order = 0 }) {
+  constructor (observationsOrTransitions, { delimeter = '', order = 0 }) {
     this.order = order
     this.delimeter = delimeter
-    this.observations = observations
-    this.transitions = this.getTransitions()
+    // Observations aren't needed if the transitions are pre-computed
+    this.observations = Array.isArray(observationsOrTransitions[0])
+      ? null
+      : observationsOrTransitions;
+    // Transition maps don't need to be created if they're pre-computed
+    this.transitions = this.observations === null && observationsOrTransitions
+      ? observationsOrTransitions
+      : this.getTransitions()
+  }
+
+  /**
+   * Change the transition map
+   * @param {Array[Array]} transitions - Pre computed transitions
+   */
+  setTransitions (transitions) {
+    this.transitions = transitions;
   }
   /**
    * Get the transition map. Each transition maps a given token/word to another
    * map of tokens/words whose values are occurences.
    *
-   * @param {Number} order - The order (ie. "memory") of the chain
+   * @param {Number} order - Transition order (ie. "memory", tokens required _per_ transition)
    *
    * Given the following observations: 'abc', 'acv', 'vac'
    * Our transitions for the letter `a` would be:
    * @example
-   *   {
-   *     a: {
-   *       START: 2,
-   *       b: 1,
-   *       c: 2
-   *     }
-   *   }
+   *   [
+   *     "a" // first entry is what's being transitioned FROM
+   *     "START", // remaining entries are possible transitions
+   *     "START",
+   *     "b"
+   *     "c",
+   *     "c"
+   *  ]
    *
    * @return {Object} The transition map generated from `this.observations`
    */

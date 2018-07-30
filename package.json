@@ -10,26 +10,30 @@
     "text",
     "chain"
   ],
+  "bin": {
+    "marc": "./bin/index.js"
+  },
   "main": "src/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/tmanderson/Marc.git"
   },
   "scripts": {
-    "example": "node -r @std/esm data/index.js",
+    "example": "node --experimental-worker -r @std/esm data/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@std/esm": "^0.19.7"
+    "@std/esm": "^0.26.0",
+    "yargs": "^12.0.1"
   },
   "@std/esm": "cjs",
   "devDependencies": {
-    "eslint": "^4.16.0",
-    "eslint-plugin-import": "^2.8.0",
+    "eslint": "^4.19.1",
+    "eslint-plugin-import": "^2.13.0",
     "eslint-plugin-node": "^5.2.1",
-    "eslint-plugin-promise": "^3.6.0",
-    "eslint-plugin-standard": "^3.0.1"
+    "eslint-plugin-promise": "^3.8.0",
+    "eslint-plugin-standard": "^3.1.0"
   }
 }
