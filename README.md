@@ -42,7 +42,10 @@ when creating an instance.
 ```js
 fetch('transitions.json')
   .then(res => res.json())
-  .then(observations => new Marc(observations, { delimeter: ' ', order: 0 }));
+  .then(observations => {
+    let marc = new Marc(observations, { delimeter: ' ', order: 0 }) // via constructor
+    marc.setTransitions(observations); // or via transitions
+  });
 ```
 
 #### A few examples, some funny, others serious (from NYTimes homepage, 01-19-2018):
