@@ -3,6 +3,7 @@
  * Node with the --experiemental-workers flag.
  */
 const { Worker, isMainThread, parentPort, workerData } = require('worker_threads');
+const MAX_OBSERVATIONS = 200;
 
 if (isMainThread) {
   let workers;
@@ -10,9 +11,8 @@ if (isMainThread) {
   module.exports = function sample (observations) {
     return new Promise((resolve, reject) => {
       const transitions = [];
-      let totalWorkers = Math.ceil(observations.length / 200);
+      let totalWorkers = Math.ceil(observations.length / MAX_OBSERVATIONS);
       let completed = 0;
-
       const handleMessage = data => {
         data.forEach(t => {
           const idx = transitions.findIndex(([v]) => v === t[0]);
@@ -34,7 +34,9 @@ if (isMainThread) {
       };
 
       workers = new Array(totalWorkers).fill().map((_, i) => {
-        const w = new Worker(__filename, { workerData: observations.slice(i * 100, i * 100 + 100) });
+        const w = new Worker(__filename, {
+          workerData: observations.slice(i * MAX_OBSERVATIONS, i * MAX_OBSERVATIONS + MAX_OBSERVATIONS)
+        });
         w.on('message', handleMessage);
         w.on('error', reject);
         return w;
