@@ -14,7 +14,7 @@ import Marc from 'marc';
 // Our observations consist of four sentences from a rando's Twitter account
 const observations = ['a sentence', 'another sentence', 'one more', 'and the last'];
 // Give Marc the observations and tell it our token delimeter (' ')
-const m = new Marc(observations, { delimeter: ' ', order: 0 }); // order = n - 1
+const m = new Marc(observations, { delimeter: ' ', order: 0 }); // order 0 = order-independent
 // Generate a probable observation
 const random = m.random();
 ```
