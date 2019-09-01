@@ -5,8 +5,8 @@ Easily create Markov models from a given set of observations to generate random
 sequences of other potential observations. Larger data sets can be pre-computed
 using the **new** [transition generator](#pre-compute-transitions-recommended-for-large-data-sets).
 
-Marc supports both [time-homogeneous](https://en.wikipedia.org/wiki/Markov_chain#Variations)
-and [higher-order](https://en.wikipedia.org/wiki/Markov_chain#Variations) Markov chains.
+Marc creates a [time-homogeneous](https://en.wikipedia.org/wiki/Markov_chain#Variations)
+model and supports [higher-ordering](https://en.wikipedia.org/wiki/Markov_chain#Variations).
 
 #### Usage
 ```js
