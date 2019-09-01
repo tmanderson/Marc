@@ -13,8 +13,8 @@ and [higher-order](https://en.wikipedia.org/wiki/Markov_chain#Variations) Markov
 import Marc from 'marc';
 // Our observations consist of four sentences from a rando's Twitter account
 const observations = ['a sentence', 'another sentence', 'one more', 'and the last'];
-// Give Marc the observations and tell it our token delimeter (' ')
-const m = new Marc(observations, { delimeter: ' ', order: 0 }); // order 0 = order-independent
+// Give Marc the observations and tell it our token delimiter (' ')
+const m = new Marc(observations, { delimiter: ' ', order: 1 });
 // Generate a probable observation
 const random = m.random();
 ```
@@ -43,7 +43,7 @@ when creating an instance.
 fetch('transitions.json')
   .then(res => res.json())
   .then(observations => {
-    let marc = new Marc(observations, { delimeter: ' ', order: 0 }) // via constructor
+    let marc = new Marc(observations, { delimiter: ' ', order: 0 }) // via constructor
     marc.setTransitions(observations); // or via transitions
   });
 ```

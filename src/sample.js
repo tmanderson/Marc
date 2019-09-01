@@ -8,7 +8,7 @@ const MAX_OBSERVATIONS = 200;
 if (isMainThread) {
   let workers;
 
-  module.exports = function sample (observations) {
+  module.exports = function sample (observations, { delimiter = ' ', order = 2 }) {
     return new Promise((resolve, reject) => {
       const transitions = [];
       let totalWorkers = Math.ceil(observations.length / MAX_OBSERVATIONS);
@@ -35,7 +35,11 @@ if (isMainThread) {
 
       workers = new Array(totalWorkers).fill().map((_, i) => {
         const w = new Worker(__filename, {
-          workerData: observations.slice(i * MAX_OBSERVATIONS, i * MAX_OBSERVATIONS + MAX_OBSERVATIONS)
+          workerData: {
+            order,
+            delimiter,
+            observations: observations.slice(i * MAX_OBSERVATIONS, i * MAX_OBSERVATIONS + MAX_OBSERVATIONS)
+          }
         });
         w.on('message', handleMessage);
         w.on('error', reject);
@@ -46,16 +50,28 @@ if (isMainThread) {
 }
 
 if (!isMainThread && workerData) {
+  const { observations, order, delimiter } = workerData;
+
   parentPort.postMessage(
-    workerData.reduce((transitions, tokens, p) =>
-      (tokens.split(' ')).reduce((map, token, i, tokens) =>
-        (map.find(([t]) => t === token) ? map : map.concat([[token]]))
-          .map(([t, ...followers], j) => {
-            if (t === 'START' && i === 0) return [t, ...followers, token];
-            if (t === token && i === tokens.length - 1) return [t, ...followers, 'END'];
-            if (t === token) return [t, ...followers, tokens[i + 1]]
-            return [t, ...followers];
-          }), transitions),
-    [['START']]).sort(() => Math.round(Math.random() * 2 - 1))
+    observations
+      .map(words => words.split(delimiter))
+      .reduce((transitions, observation, p) => {
+        const words = observation
+          .reduce((scaledWords, word, i, words) =>
+            (i + 1) % order > 0
+            ? scaledWords
+            : scaledWords.concat([words.slice((i + 1) - order, i + 1).join(delimiter)]),
+            []
+          );
+        return ['START'].concat(words).reduce((transitions, word, i, words) => {
+          let transitionIndex = transitions.findIndex(([leader]) => leader === word);
+          if (transitionIndex < 0) transitionIndex = (transitions.push([word]) - 1);
+          transitions[transitionIndex].push(words[i + 1] || 'END');
+          return transitions;
+        }, transitions);
+      }, [['START']])
+      .map(([leader, ...followers]) => [
+        leader, ...followers.sort(() => Math.round(Math.random() * 2 - 1))
+      ])
   );
 }
